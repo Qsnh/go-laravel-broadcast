@@ -6,3 +6,4 @@
 + [x] Websocket服务
 + [x] Redis订阅
 + [ ] 心跳
++ [ ] HTTPS
