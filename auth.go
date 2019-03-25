@@ -7,7 +7,7 @@ import (
 )
 
 var (
-	authUrl = GetEnv("AUTH_HOST") + GetEnv("AUTH_PATH")
+	authUrl = os.Getenv("AUTH_HOST") + os.Getenv("AUTH_PATH")
 )
 
 func Authorization(channel string, cookies []*http.Cookie) (bool) {

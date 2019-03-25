@@ -1,13 +1,15 @@
 package main
 
 import (
+	_ "github.com/joho/godotenv/autoload"
 	log "github.com/sirupsen/logrus"
 	"net/http"
+	"os"
 )
 
 var (
-	address = GetEnv("WEBSOCKET_HOST") + ":" + GetEnv("WEBSOCKET_PORT")
-	wsPath  = GetEnv("WEBSOCKET_WS_PATH")
+	address = os.Getenv("WEBSOCKET_HOST") + ":" + os.Getenv("WEBSOCKET_PORT")
+	wsPath  = os.Getenv("WEBSOCKET_WS_PATH")
 )
 
 func main() {

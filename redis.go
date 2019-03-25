@@ -3,6 +3,7 @@ package main
 import (
 	"github.com/gomodule/redigo/redis"
 	log "github.com/sirupsen/logrus"
+	"os"
 	"strings"
 )
 
@@ -12,10 +13,10 @@ type ChannelMessage struct {
 }
 
 var (
-	redisHost         = GetEnv("REDIS_HOST")
-	redisPort         = GetEnv("REDIS_PORT")
-	redisPassword     = GetEnv("REDIS_PASSWORD")
-	subscribeChannels = GetEnv("SUBSCRIBE_CHANNELS")
+	redisHost         = os.Getenv("REDIS_HOST")
+	redisPort         = os.Getenv("REDIS_PORT")
+	redisPassword     = os.Getenv("REDIS_PASSWORD")
+	subscribeChannels = os.Getenv("SUBSCRIBE_CHANNELS")
 	SubscribeMessages = make(chan ChannelMessage, 10)
 )
 
