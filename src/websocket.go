@@ -2,12 +2,12 @@ package main
 
 import (
 	"github.com/gorilla/websocket"
-	"net/http"
 	log "github.com/sirupsen/logrus"
+	"net/http"
 )
 
 var upgrader = websocket.Upgrader{
-	ReadBufferSize: 1024,
+	ReadBufferSize:  1024,
 	WriteBufferSize: 1024,
 }
 

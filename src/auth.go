@@ -17,7 +17,7 @@ func Authorization(channel string, cookies []*http.Cookie) (bool) {
 		return false
 	}
 	req.Header.Set("Content-Type", "application/json")
-	for _,cookie := range cookies {
+	for _, cookie := range cookies {
 		req.AddCookie(cookie)
 	}
 	resp, err := client.Do(req)

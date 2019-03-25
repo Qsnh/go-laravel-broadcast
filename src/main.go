@@ -8,8 +8,8 @@ import (
 )
 
 var (
-	address = os.Getenv("WEBSOCKET_HOST")+":"+os.Getenv("WEBSOCKET_PORT")
-	wsPath = os.Getenv("WEBSOCKET_WS_PATH")
+	address = os.Getenv("WEBSOCKET_HOST") + ":" + os.Getenv("WEBSOCKET_PORT")
+	wsPath  = os.Getenv("WEBSOCKET_WS_PATH")
 )
 
 func main() {
@@ -31,5 +31,5 @@ func main() {
 	if err != nil {
 		log.Fatal("ListenAndServe:", err)
 	}
-	log.Info(address+wsPath)
+	log.Info(address + wsPath)
 }
