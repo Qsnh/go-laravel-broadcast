@@ -38,13 +38,15 @@ func init() {
 		psc.Subscribe(channel)
 	}
 	// 监听消息
-	for {
-		switch v := psc.Receive().(type) {
-		case redis.Message:
-			// 收到订阅消息之后推送到订阅消息chan
-			SubscribeMessages <- ChannelMessage{Channel: v.Channel, Data: v.Data}
-			//case redis.Subscription:
-			//case error:
+	go func() {
+		for {
+			switch v := psc.Receive().(type) {
+			case redis.Message:
+				// 收到订阅消息之后推送到订阅消息chan
+				SubscribeMessages <- ChannelMessage{Channel: v.Channel, Data: v.Data}
+				//case redis.Subscription:
+				//case error:
+			}
 		}
-	}
+	}()
 }

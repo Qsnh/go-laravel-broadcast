@@ -4,12 +4,32 @@ import (
 	"github.com/gorilla/websocket"
 	log "github.com/sirupsen/logrus"
 	"net/http"
+	"os"
+	"strings"
 )
 
-var upgrader = websocket.Upgrader{
-	ReadBufferSize:  1024,
-	WriteBufferSize: 1024,
-}
+var (
+	checkOrigin = os.Getenv("WEBSOCKET_CHECK_ORIGIN")
+	upgrader    = websocket.Upgrader{
+		ReadBufferSize:  1024,
+		WriteBufferSize: 1024,
+		// 跨域控制
+		CheckOrigin: func(r *http.Request) bool {
+			if checkOrigin == "" {
+				return true
+			}
+			origins := strings.Split(checkOrigin, ",")
+			requestOrigin := r.Header["Origin"][0]
+			log.WithField("origin", requestOrigin).Info("check origin")
+			for _, origin := range origins {
+				if requestOrigin == origin {
+					return true
+				}
+			}
+			return false
+		},
+	}
+)
 
 func NewWebsocket(w http.ResponseWriter, r *http.Request) {
 	conn, err := upgrader.Upgrade(w, r, nil)

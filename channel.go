@@ -18,7 +18,9 @@ func (c *Channels) Broadcast(message ChannelMessage) {
 		return
 	}
 	for _, client := range clients {
-		_ = client.WriteMessage(websocket.TextMessage, message.Data)
+		go func() {
+			_ = client.WriteMessage(websocket.TextMessage, message.Data)
+		}()
 	}
 }
 
