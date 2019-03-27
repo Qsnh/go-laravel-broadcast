@@ -15,6 +15,12 @@ var (
 func main() {
 	// 启动redis
 	go SubscribeChannel()
+	go func() {
+		for message := range SubscribeMessages {
+			// 收到消息进行推送
+			go ChannelsRegister.Broadcast(message)
+		}
+	}()
 	// 启动http服务
 	log.Info(address + wsPath)
 	http.HandleFunc(wsPath, func(w http.ResponseWriter, r *http.Request) {
