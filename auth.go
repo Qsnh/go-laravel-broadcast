@@ -13,18 +13,19 @@ var (
 
 func Authorization(channel string, cookies []*http.Cookie) (bool) {
 	client := &http.Client{}
-	req, err := http.NewRequest("GET", authUrl+"?channel_name="+channel, os.Stdout)
+	url := authUrl+"?channel_name="+channel
+	req, err := http.NewRequest("GET", url, nil)
 	if err != nil {
-		log.Error("init request error.", err)
+		log.WithField("cookie", cookies).WithField("url", url).Error("init request error.", err)
 		return false
 	}
-	req.Header.Set("Content-Type", "application/json")
+	req.Header.Add("Content-Type", "application/json")
 	for _, cookie := range cookies {
 		req.AddCookie(cookie)
 	}
 	resp, err := client.Do(req)
 	if err != nil {
-		log.WithField("cookie", cookies).Error("send request error.", err)
+		log.WithField("cookie", cookies).WithField("url", url).Error("send request error.", err)
 		return false
 	}
 	defer resp.Body.Close()
@@ -34,7 +35,7 @@ func Authorization(channel string, cookies []*http.Cookie) (bool) {
 		return false
 	}
 	responseBody := string(body)
-	log.WithField("body", responseBody).Info("auth response content.")
+	log.WithField("cookie", cookies).WithField("url", url).Info("auth response content.")
 	if responseBody == "true" {
 		return true
 	}
