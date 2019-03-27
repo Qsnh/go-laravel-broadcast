@@ -20,7 +20,7 @@ var (
 	SubscribeMessages = make(chan ChannelMessage, 10)
 )
 
-func init() {
+func SubscribeChannel() {
 	// 连接redis
 	dailOption := redis.DialPassword(redisPassword)
 	conn, err := redis.Dial("tcp", redisHost+":"+redisPort, dailOption)
@@ -30,23 +30,26 @@ func init() {
 	defer conn.Close()
 	// 订阅
 	psc := redis.PubSubConn{Conn: conn}
-	channels := strings.Split(subscribeChannels, ",")
-	if len(channels) == 0 {
+	if subscribeChannels == "" {
 		log.Fatal("无订阅频道")
 	}
+	channels := strings.Split(subscribeChannels, ",")
 	for _, channel := range channels {
-		psc.Subscribe(channel)
+		log.WithField("channel", channel).Info("redis subscribe")
+		if err := psc.PSubscribe(channel); err != nil {
+			log.WithField("redis subscribe channel", channel).Error(err)
+		}
 	}
 	// 监听消息
-	go func() {
-		for {
-			switch v := psc.Receive().(type) {
-			case redis.Message:
-				// 收到订阅消息之后推送到订阅消息chan
-				SubscribeMessages <- ChannelMessage{Channel: v.Channel, Data: v.Data}
-				//case redis.Subscription:
-				//case error:
-			}
+	for {
+		switch v := psc.Receive().(type) {
+		case redis.Message:
+			// 收到订阅消息之后推送到订阅消息chan
+			log.Info(v)
+			SubscribeMessages <- ChannelMessage{Channel: v.Channel, Data: v.Data}
+			//case redis.Subscription:
+		case error:
+			return
 		}
-	}()
+	}
 }
