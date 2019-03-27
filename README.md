@@ -5,12 +5,15 @@
 
 + [x] Websocket服务
 + [x] Redis订阅
-+ [ ] 心跳
++ [ ] 心跳检测
 + [ ] HTTPS
++ [ ] 数据报表接口
 
 
-### Dev
+### Prod
 
 ```
-go run main.go auth.go env.go channel.go redis.go websocket.go
+cp .env.example .env
+go build -o client
+./client
 ```
