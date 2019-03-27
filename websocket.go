@@ -44,5 +44,5 @@ func NewWebsocket(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	// 注册channel到连接的映射
-	_ = append(ChannelsRegister.r[channelName], conn)
+	ChannelsRegister.r[channelName] = append(ChannelsRegister.r[channelName], conn)
 }

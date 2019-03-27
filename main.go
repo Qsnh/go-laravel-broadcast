@@ -22,9 +22,11 @@ func main() {
 	}()
 	// 启动http服务
 	log.Info(address + wsPath)
-	http.HandleFunc(wsPath, NewWebsocket)
+	http.HandleFunc(wsPath, func(w http.ResponseWriter, r *http.Request) {
+		NewWebsocket(w, r)
+	})
 	err := http.ListenAndServe(address, nil)
 	if err != nil {
-		log.Fatal("ListenAndServe:", err)
+		log.WithField("address", address).Fatal("ListenAndServe:", err)
 	}
 }
