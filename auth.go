@@ -13,7 +13,7 @@ var (
 
 func Authorization(channel string, cookies []*http.Cookie) (bool) {
 	client := &http.Client{}
-	url := authUrl+"?channel_name="+channel
+	url := authUrl + "?channel_name=" + channel
 	req, err := http.NewRequest("GET", url, nil)
 	if err != nil {
 		log.WithField("cookie", cookies).WithField("url", url).Error("init request error.", err)
