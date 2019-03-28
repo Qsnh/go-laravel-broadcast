@@ -45,4 +45,6 @@ func NewWebsocket(w http.ResponseWriter, r *http.Request) {
 	}
 	// 注册channel到连接的映射
 	ChannelsRegister.r[channelName] = append(ChannelsRegister.r[channelName], conn)
+	// 统计
+	metrics.ClientCount.Inc(1)
 }

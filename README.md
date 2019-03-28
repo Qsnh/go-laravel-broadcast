@@ -5,12 +5,13 @@
 
 + [x] Websocket服务
 + [x] Redis订阅
++ [x] 定时输出数据统计
 + [ ] 心跳检测
 + [ ] HTTPS
 + [ ] 数据报表接口
 
 
-### Prod
+### Usage
 
 ```
 cp .env.example .env

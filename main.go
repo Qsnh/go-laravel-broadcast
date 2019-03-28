@@ -21,6 +21,8 @@ func main() {
 			go ChannelsRegister.Broadcast(message)
 		}
 	}()
+	// Report
+	go metrics.Report()
 	// 启动http服务
 	log.Info(address + wsPath)
 	http.HandleFunc(wsPath, func(w http.ResponseWriter, r *http.Request) {
