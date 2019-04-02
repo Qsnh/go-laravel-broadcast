@@ -21,8 +21,10 @@ func main() {
 			go ChannelsRegister.Broadcast(message)
 		}
 	}()
-	// Report
+	// 数据定时输出
 	go metrics.Report()
+	// 心跳
+	go HeartbeatTimer()
 	// 启动http服务
 	log.Info(address + wsPath)
 	http.HandleFunc(wsPath, func(w http.ResponseWriter, r *http.Request) {

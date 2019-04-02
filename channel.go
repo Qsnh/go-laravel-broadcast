@@ -1,15 +1,13 @@
 package main
 
-import "github.com/gorilla/websocket"
-
-type Channel struct {
-	Name       string
-	Broadcasts chan string
-	Clients    []*websocket.Conn
-}
+import (
+	"github.com/gorilla/websocket"
+	"sync"
+)
 
 type Channels struct {
-	r map[string][]*websocket.Conn
+	mu sync.Mutex
+	r  map[string][]*websocket.Conn
 }
 
 func (c *Channels) Broadcast(message ChannelMessage) {
@@ -20,6 +18,12 @@ func (c *Channels) Broadcast(message ChannelMessage) {
 	for _, client := range clients {
 		_ = client.WriteMessage(websocket.TextMessage, message.Data)
 	}
+}
+
+func (c *Channels) RemoveConn(channel string, index int) {
+	c.mu.Lock()
+	c.r[channel] = append(c.r[channel][:index], c.r[channel][index+1:]...)
+	c.mu.Unlock()
 }
 
 var ChannelsRegister = &Channels{

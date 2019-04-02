@@ -44,8 +44,6 @@ func SubscribeChannel() {
 	for {
 		switch v := psc.Receive().(type) {
 		case redis.Message:
-			// 收到订阅消息之后推送到订阅消息chan
-			log.Info(v)
 			// 统计
 			metrics.MessageCount.Inc(1)
 			SubscribeMessages <- ChannelMessage{Channel: v.Channel, Data: v.Data}

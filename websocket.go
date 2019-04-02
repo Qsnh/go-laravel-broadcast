@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"os"
 	"strings"
+	"time"
 )
 
 var (
@@ -47,4 +48,25 @@ func NewWebsocket(w http.ResponseWriter, r *http.Request) {
 	ChannelsRegister.r[channelName] = append(ChannelsRegister.r[channelName], conn)
 	// 统计
 	metrics.ClientCount.Inc(1)
+}
+
+func HeartbeatTimer() {
+	t := time.NewTicker(5 * time.Second)
+	for {
+		select {
+		case <-t.C:
+			go HeartbeatHandler()
+		}
+	}
+}
+
+func HeartbeatHandler() {
+	for channel, conns := range ChannelsRegister.r {
+		for index, conn := range conns {
+			if err := conn.WriteMessage(websocket.TextMessage, []byte("hb")); err != nil {
+				// 错误，需要清楚
+				ChannelsRegister.RemoveConn(channel, index)
+			}
+		}
+	}
 }
