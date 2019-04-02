@@ -8,8 +8,11 @@ import (
 )
 
 var (
-	address = os.Getenv("WEBSOCKET_HOST") + ":" + os.Getenv("WEBSOCKET_PORT")
-	wsPath  = os.Getenv("WEBSOCKET_WS_PATH")
+	address     = os.Getenv("WEBSOCKET_HOST") + ":" + os.Getenv("WEBSOCKET_PORT")
+	wsPath      = os.Getenv("WEBSOCKET_WS_PATH")
+	tlsEnabled  = os.Getenv("TLS_ENABLED")
+	tlsKeyFile  = os.Getenv("TLS_KEY_FILE")
+	tlsCertFile = os.Getenv("TLS_CERT_FILE")
 )
 
 func main() {
@@ -34,7 +37,12 @@ func main() {
 		w.Header().Set("Content-Type", "application/json")
 		w.Write([]byte(metrics.GetJson()))
 	})
-	err := http.ListenAndServe(address, nil)
+	var err error
+	if tlsEnabled == "true" {
+		err = http.ListenAndServeTLS(address, tlsCertFile, tlsKeyFile, nil)
+	} else {
+		err = http.ListenAndServe(address, nil)
+	}
 	if err != nil {
 		log.WithField("address", address).Fatal("ListenAndServe:", err)
 	}
