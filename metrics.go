@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	gometrics "github.com/rcrowley/go-metrics"
 	log "github.com/sirupsen/logrus"
 	"time"
@@ -24,4 +25,8 @@ func (m *LocalMetrics) Report() {
 			log.WithField("MessageCount", m.MessageCount.Count()).WithField("ClientCount", m.ClientCount.Count()).Info("report")
 		}
 	}
+}
+
+func (m *LocalMetrics) GetJson() string {
+	return fmt.Sprintf("{\"message\":%d,\"client\":%d}", m.MessageCount.Count(), m.ClientCount.Count())
 }

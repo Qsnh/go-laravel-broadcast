@@ -30,6 +30,10 @@ func main() {
 	http.HandleFunc(wsPath, func(w http.ResponseWriter, r *http.Request) {
 		NewWebsocket(w, r)
 	})
+	http.HandleFunc("/metrics", func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Content-Type", "application/json")
+		w.Write([]byte(metrics.GetJson()))
+	})
 	err := http.ListenAndServe(address, nil)
 	if err != nil {
 		log.WithField("address", address).Fatal("ListenAndServe:", err)
