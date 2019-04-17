@@ -38,11 +38,12 @@ func NewWebsocket(w http.ResponseWriter, r *http.Request) {
 		log.Fatal(err)
 	}
 	channelName := r.FormValue("channel")
-	auth := Authorization(channelName, r.Cookies())
-	if auth == false {
-		// 断开websocket
-		conn.Close()
-		return
+	if strings.HasPrefix(channelName, "private-") || strings.HasPrefix(channelName, "presence-") {
+		if auth := Authorization(channelName, r.Cookies()); auth == false {
+			// 断开websocket
+			conn.Close()
+			return
+		}
 	}
 	// 注册channel到连接的映射
 	ChannelsRegister.r[channelName] = append(ChannelsRegister.r[channelName], conn)

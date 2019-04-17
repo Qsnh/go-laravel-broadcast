@@ -39,6 +39,7 @@ func main() {
 	})
 	var err error
 	if tlsEnabled == "true" {
+		// HTTPS
 		err = http.ListenAndServeTLS(address, tlsCertFile, tlsKeyFile, nil)
 	} else {
 		err = http.ListenAndServe(address, nil)
