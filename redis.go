@@ -17,7 +17,7 @@ var (
 	redisPort         = os.Getenv("REDIS_PORT")
 	redisPassword     = os.Getenv("REDIS_PASSWORD")
 	subscribeChannels = os.Getenv("SUBSCRIBE_CHANNELS")
-	SubscribeMessages = make(chan ChannelMessage, 10)
+	SubscribeMessages = make(chan ChannelMessage, 100)
 )
 
 func SubscribeChannel() {

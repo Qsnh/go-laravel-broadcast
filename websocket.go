@@ -17,6 +17,9 @@ var (
 		// 跨域控制
 		CheckOrigin: func(r *http.Request) bool {
 			if checkOrigin == "" {
+				return false
+			}
+			if checkOrigin == "*" {
 				return true
 			}
 			origins := strings.Split(checkOrigin, ",")
@@ -65,7 +68,7 @@ func HeartbeatHandler() {
 	for channel, conns := range ChannelsRegister.r {
 		for index, conn := range conns {
 			if err := conn.WriteMessage(websocket.TextMessage, []byte("hb")); err != nil {
-				// 错误，需要清楚
+				// clear
 				ChannelsRegister.RemoveConn(channel, index)
 			}
 		}
