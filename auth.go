@@ -29,15 +29,17 @@ func Authorization(channel string, cookies []*http.Cookie) (bool) {
 		return false
 	}
 	defer resp.Body.Close()
+
 	body, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
 		log.Error("read auth response content error.", err)
 		return false
 	}
 	responseBody := string(body)
-	log.WithField("cookie", cookies).WithField("url", url).Info("auth response content.")
-	if responseBody == "true" {
-		return true
+	log.WithField("cookie", cookies).WithField("url", url).WithField("content", responseBody).Info("auth response content.")
+
+	if resp.StatusCode != http.StatusOK {
+		return false
 	}
-	return false
+	return true
 }
