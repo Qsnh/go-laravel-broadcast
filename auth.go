@@ -36,7 +36,7 @@ func Authorization(channel string, cookies []*http.Cookie) (bool) {
 		return false
 	}
 	responseBody := string(body)
-	log.WithField("cookie", cookies).WithField("url", url).WithField("content", responseBody).Info("auth response content.")
+	log.WithField("cookie", cookies).WithField("status code", resp.StatusCode).WithField("url", url).WithField("content", responseBody).Info("auth response content.")
 
 	if resp.StatusCode != http.StatusOK {
 		return false
