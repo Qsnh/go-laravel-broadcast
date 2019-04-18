@@ -1,9 +1,8 @@
 # Laravel Broadcast
 
-基于 Go 实现的 `laravel-echo-server` 。在我司内部实现 `notification` 的时候，发现 `laravel-echo-server` 服务在大用户量下占用太多
-的系统资源，于是就用 Go 重新造个轮子。
+[Usage](doc/USAGE.md)
 
-###  [USAGE](doc/USAGE.md)
+基于 Go 实现的 [laravel-echo-server](https://github.com/tlaverdure/laravel-echo-server) 。速度更快，占用资源更少，更易于多平台运行。
 
 ### Features
 
