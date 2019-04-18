@@ -42,10 +42,14 @@ func NewWebsocket(w http.ResponseWriter, r *http.Request) {
 	}
 	channelName := r.FormValue("channel")
 	if strings.HasPrefix(channelName, "private-") || strings.HasPrefix(channelName, "presence-") {
-		if auth := Authorization(channelName, r.Cookies()); auth == false {
-			// 断开websocket
+		authRes := Authorization(channelName, r.Cookies());
+		if authRes.status == false {
 			conn.Close()
 			return
+		}
+		if strings.HasPrefix(channelName, "presence-") {
+			// presence频道在用户加入该频道的时候需要广播给其它用户
+			SubscribeMessages <- ChannelMessage{channelName, []byte(authRes.body)}
 		}
 	}
 	// 注册channel到连接的映射
