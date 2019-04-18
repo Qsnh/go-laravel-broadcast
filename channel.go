@@ -20,6 +20,12 @@ func (c *Channels) Broadcast(message ChannelMessage) {
 	}
 }
 
+func (c *Channels) AddConn(channel string, conn *websocket.Conn) {
+	c.mu.Lock()
+	c.r[channel] = append(c.r[channel], conn)
+	c.mu.Unlock()
+}
+
 func (c *Channels) RemoveConn(channel string, index int) {
 	c.mu.Lock()
 	c.r[channel] = append(c.r[channel][:index], c.r[channel][index+1:]...)
