@@ -16,7 +16,7 @@ type AuthRes struct {
 	body   string
 }
 
-func Authorization(channel string, cookies []*http.Cookie) (AuthRes) {
+func Authorization(channel string, cookies []*http.Cookie) AuthRes {
 	ar := AuthRes{}
 
 	client := &http.Client{}

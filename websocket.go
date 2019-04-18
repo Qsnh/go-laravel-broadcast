@@ -42,7 +42,7 @@ func NewWebsocket(w http.ResponseWriter, r *http.Request) {
 	}
 	channelName := r.FormValue("channel")
 	if strings.HasPrefix(channelName, "private-") || strings.HasPrefix(channelName, "presence-") {
-		authRes := Authorization(channelName, r.Cookies());
+		authRes := Authorization(channelName, r.Cookies())
 		if authRes.status == false {
 			conn.Close()
 			return
