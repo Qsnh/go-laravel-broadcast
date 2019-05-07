@@ -16,7 +16,7 @@ type AuthRes struct {
 	body   string
 }
 
-func Authorization(channel string, cookies []*http.Cookie) AuthRes {
+func Authorization(channel string, cookies []*http.Cookie, token string) AuthRes {
 	ar := AuthRes{}
 
 	client := &http.Client{}
@@ -25,6 +25,9 @@ func Authorization(channel string, cookies []*http.Cookie) AuthRes {
 	if err != nil {
 		log.WithField("cookie", cookies).WithField("url", url).Error("init request error.", err)
 		return ar
+	}
+	if token != "" {
+		req.Header.Add("Authorization", "Bearer "+token)
 	}
 	req.Header.Add("Content-Type", "application/json")
 	for _, cookie := range cookies {

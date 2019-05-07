@@ -6,3 +6,4 @@ tls/
 .vscode/
 client-linux
 client-windows.exe
+go-laravel-broadcast
