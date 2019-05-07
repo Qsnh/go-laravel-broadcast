@@ -5,3 +5,4 @@ client
 tls/
 .vscode/
 client-linux
+client-windows.exe
