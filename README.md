@@ -1,5 +1,8 @@
 # Laravel Broadcast
 
+[![Build Status](https://travis-ci.org/Qsnh/go-laravel-broadcast.png)](https://travis-ci.org/Qsnh/go-laravel-broadcast)
+[![Release](https://img.shields.io/github/release/Qsnh/go-laravel-broadcast.svg?label=Release)](https://github.com/Qsnh/go-laravel-broadcast/releases)
+
 [Usage](doc/USAGE.md)
 
 基于 Go 实现的 [laravel-echo-server](https://github.com/tlaverdure/laravel-echo-server) 。速度更快，占用资源更少，更易于多平台运行。
