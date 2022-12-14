@@ -1,15 +1,16 @@
 package main
 
 import (
-	_ "github.com/joho/godotenv/autoload"
-	log "github.com/sirupsen/logrus"
 	"net/http"
 	"os"
+
+	_ "github.com/joho/godotenv/autoload"
+	log "github.com/sirupsen/logrus"
 )
 
 var (
 	address     = os.Getenv("WEBSOCKET_HOST") + ":" + os.Getenv("WEBSOCKET_PORT")
-	wsPath      = os.Getenv("WEBSOCKET_WS_PATH")
+	wsPath      = os.Getenv("WEBSOCKET_PATH")
 	tlsEnabled  = os.Getenv("TLS_ENABLED")
 	tlsKeyFile  = os.Getenv("TLS_KEY_FILE")
 	tlsCertFile = os.Getenv("TLS_CERT_FILE")
